@@ -20,6 +20,7 @@ export const brewery = createSlice({
       store.brewery.breweryList = action.payload;
     },
     setBreweryTypes: (store, action) => {
+      console.log('action', action.payload);
       store.brewery.breweryTypes = action.payload;
     },
   },
@@ -31,6 +32,11 @@ export const allBreweries = page => {
       const response = await fetch(`${ALLBREWERIES}?page=${page}`);
       const data = await response.json();
       dispatch(brewery.actions.setBreweries(data));
+      const breweryTypes = data.map(type => type.brewery_type);
+      console.log('types', breweryTypes);
+      const uniqueBreweryTypes = [...new Set(breweryTypes)];
+      console.log('unique', uniqueBreweryTypes);
+      dispatch(brewery.actions.setBreweryTypes(uniqueBreweryTypes));
       // const BreweryTypes = data.map(data => {
       //   data.brewery_type;
       // });

@@ -11,22 +11,29 @@ const LandingPage = ({ navigation }) => {
     setSelection(!isSelected);
   };
 
-  const breweryType = useSelector(store => store.brewery.brewery.breweryList);
-  console.log(breweryType);
+  const breweryTypes = useSelector(store => store.brewery.brewery.breweryTypes);
+  console.log('component', breweryTypes);
 
   return (
     <SafeAreaView style={styles.container}>
       <Text>This is the landing page</Text>
-      {/* Use ternary depending on platform Platform.OS === iOs or something*/}
-      {breweryType.map(type => (
-        <CheckBox
-          //key={type.id}
-          title={type.brewery_type}
-          style={styles.checkBoxIos}
-          checked={isSelected}
-          onPress={handleChecked}
-        />
-      ))}
+      {!breweryTypes ? (
+        <Text>Loading...</Text>
+      ) : (
+        <>
+          {/* Use ternary depending on platform Platform.OS === iOs or something*/}
+
+          {breweryTypes.map(type => (
+            <CheckBox
+              key={type}
+              title={type.brewery_type}
+              style={styles.checkBoxIos}
+              checked={isSelected}
+              onPress={handleChecked}
+            />
+          ))}
+        </>
+      )}
 
       <TouchableOpacity
         style={styles.button}
