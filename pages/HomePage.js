@@ -5,7 +5,7 @@ import { StyleSheet, Text, SafeAreaView, Platform } from 'react-native';
 const HomePage = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <Text>Hello React Native pro!</Text>
+      <Text>Hello World</Text>
       <Image
         source={{
           width: 200,
