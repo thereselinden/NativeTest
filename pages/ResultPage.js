@@ -1,21 +1,35 @@
-import React from 'react';
-import { StyleSheet, Text, SafeAreaView, Platform, Image } from 'react-native';
+import React, { useEffect, useState } from 'react';
 
-const HomePage = () => {
+import { StyleSheet, Text, SafeAreaView, Platform } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { allBreweries } from '../reducer/brewery';
+
+const ResultPage = () => {
+  const [page, setPage] = useState(1);
+  const dispatch = useDispatch();
+  const breweries = useSelector(store => store.brewery.brewery.breweryList);
+
+  useEffect(() => {
+    dispatch(allBreweries());
+  }, [page]);
+
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.headingText}>Hello World</Text>
-      <Image
-        source={{
-          width: 200,
-          height: 300,
-          uri: 'https://picsum.photos/200/300',
-        }}
-      />
+      <Text style={styles.headingText}>Breweries</Text>
+      {!breweries ? (
+        <Text>Loading...</Text>
+      ) : (
+        <>
+          {breweries.map(brewery => (
+            <Text key={brewery.id}>{brewery.name}</Text>
+          ))}
+        </>
+      )}
     </SafeAreaView>
   );
 };
-export default HomePage;
+export default ResultPage;
 
 const styles = StyleSheet.create({
   container: {
