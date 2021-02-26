@@ -1,15 +1,14 @@
 import React from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, SafeAreaView, Platform } from 'react-native';
+import { StyleSheet, Text, SafeAreaView, Platform, Image } from 'react-native';
 
 const HomePage = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <Text>Hello World</Text>
+      <Text style={styles.headingText}>Hello World</Text>
       <Image
         source={{
           width: 200,
-          height: landscape ? '100%' : '30%',
+          height: 300,
           uri: 'https://picsum.photos/200/300',
         }}
       />
@@ -25,6 +24,10 @@ const styles = StyleSheet.create({
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  headingText: {
+    fontSize: 36,
+    flexShrink: -1,
   },
 });
 
