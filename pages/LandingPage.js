@@ -1,45 +1,31 @@
-import React, { useState } from 'react';
-import { CheckBox } from 'react-native-elements';
-import { useSelector } from 'react-redux';
-
+import React from 'react';
 import { StyleSheet, Text, SafeAreaView, TouchableOpacity } from 'react-native';
+import { useDispatch } from 'react-redux';
+
+import { allBreweries } from '../reducer/brewery';
 
 const LandingPage = ({ navigation }) => {
-  const [isSelected, setSelection] = useState(false);
+  const dispatch = useDispatch();
 
-  const handleChecked = () => {
-    setSelection(!isSelected);
+  const handleFilter = () => {
+    dispatch(allBreweries());
   };
 
-  const breweryTypes = useSelector(store => store.brewery.brewery.breweryTypes);
-  console.log('component', breweryTypes);
+  const handleNavigation = () => {
+    navigation.navigate('Filter');
+  };
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text>This is the landing page</Text>
-      {!breweryTypes ? (
-        <Text>Loading...</Text>
-      ) : (
-        <>
-          {/* Use ternary depending on platform Platform.OS === iOs or something*/}
-
-          {breweryTypes.map(type => (
-            <CheckBox
-              key={type}
-              title={type.brewery_type}
-              style={styles.checkBoxIos}
-              checked={isSelected}
-              onPress={handleChecked}
-            />
-          ))}
-        </>
-      )}
-
+      <Text>Landing page - short description of this app</Text>
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate('Result')}
+        onPress={() => {
+          handleFilter();
+          handleNavigation();
+        }}
       >
-        <Text>Click here</Text>
+        <Text>Go to filter</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );

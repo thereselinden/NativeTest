@@ -8,6 +8,7 @@ const initialState = {
   brewery: {
     breweryList: [],
     breweryTypes: [],
+    singleBrewery: {},
   },
 };
 
@@ -16,12 +17,16 @@ export const brewery = createSlice({
   name: 'brewery',
   initialState,
   reducers: {
+    //all breweries
     setBreweries: (store, action) => {
       store.brewery.breweryList = action.payload;
     },
     setBreweryTypes: (store, action) => {
-      console.log('action', action.payload);
       store.brewery.breweryTypes = action.payload;
+    },
+    //one brewery
+    setSingleBrewery: (store, action) => {
+      store.brewery.singleBrewery = action.payload;
     },
   },
 });
@@ -33,17 +38,20 @@ export const allBreweries = page => {
       const data = await response.json();
       dispatch(brewery.actions.setBreweries(data));
       const breweryTypes = data.map(type => type.brewery_type);
-      console.log('types', breweryTypes);
       const uniqueBreweryTypes = [...new Set(breweryTypes)];
-      console.log('unique', uniqueBreweryTypes);
       dispatch(brewery.actions.setBreweryTypes(uniqueBreweryTypes));
-      // const BreweryTypes = data.map(data => {
-      //   data.brewery_type;
-      // });
-      // console.log('thunk types', BreweryTypes);
-      // const uniqueBreweryTypes = [...new Set(BreweryTypes)];
-      // console.log('thunk unique', uniqueBreweryTypes);
-      // dispatch(brewery.actions.setBreweryTypes(uniqueBreweryTypes));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const singleBrewery = breweryId => {
+  return async dispatch => {
+    try {
+      const response = await fetch(`${ALLBREWERIES}/${breweryId}`);
+      const data = await response.json();
+      dispatch(brewery.actions.setSingleBrewery(data));
     } catch (err) {
       console.log(err);
     }

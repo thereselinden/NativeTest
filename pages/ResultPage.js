@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 
 import { StyleSheet, Text, SafeAreaView, Platform } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { allBreweries } from '../reducer/brewery';
 
-const ResultPage = () => {
+const ResultPage = ({ navigation }) => {
   const [page, setPage] = useState(1);
   const dispatch = useDispatch();
   const breweries = useSelector(store => store.brewery.brewery.breweryList);
@@ -22,7 +23,14 @@ const ResultPage = () => {
       ) : (
         <>
           {breweries.map(brewery => (
-            <Text key={brewery.id}>{brewery.name}</Text>
+            <TouchableOpacity
+              key={brewery.id}
+              onPress={() =>
+                navigation.navigate('Brewery detail', { breweryId: brewery.id })
+              }
+            >
+              <Text>{brewery.name}</Text>
+            </TouchableOpacity>
           ))}
         </>
       )}
